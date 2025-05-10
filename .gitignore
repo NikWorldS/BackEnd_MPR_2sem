@@ -1,4 +1,4 @@
-models/storage
+models/storage/*
 
 test.py
 
