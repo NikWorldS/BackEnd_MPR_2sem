@@ -67,6 +67,6 @@ def init(app, redis_cache):
             {"type": "predicted", "value": float(predicted[0]), "date": str(df.index[-1] + get_resolution(resolution))}
         )
 
-        redis_cache.setex(redis_key, 172800, json.dumps(response))
+        redis_cache.setex(redis_key, 172800, json.dumps(response)) # expire for 2 days
 
         return jsonify(response)
