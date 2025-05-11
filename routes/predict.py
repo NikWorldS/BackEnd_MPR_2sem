@@ -1,6 +1,7 @@
 import os
-from datetime import datetime, timezone, timedelta
+import json
 
+from datetime import datetime, timezone, timedelta
 from flask import request, jsonify
 
 from cache.model_cache import models
@@ -10,7 +11,7 @@ from utils.parser_registry import PARSERS
 from utils.time_utils import get_resolution
 
 
-def init(app, database):
+def init(app, redis_cache):
 
     @app.route("/api/predict", methods=['POST'])
     def predict():
@@ -26,6 +27,11 @@ def init(app, database):
 
         if sec_id not in PARSERS:
             return jsonify({"error": f'Unknown sec_id: {sec_id}'}), 400
+
+        redis_key = f"predict:{sec_id}:{ticker}:{resolution}:{date_from.isoformat()}:{date_to.isoformat()}"
+        if redis_cache.exists(redis_key):
+            cached_response = json.loads(redis_cache.get(redis_key))
+            return jsonify(cached_response)
 
         model_key = f"{sec_id}_{ticker}_{resolution}"
         model_path = os.path.join("models", "storage", model_key)
@@ -48,7 +54,6 @@ def init(app, database):
             models[model_key] = predictor
 
         values = df["close"].values[-predictor.window_size:]
-
         if values.shape[0] < predictor.window_size:
             return jsonify({"error": "Too small interval"}), 400
 
@@ -61,4 +66,7 @@ def init(app, database):
         response.append(
             {"type": "predicted", "value": float(predicted[0]), "date": str(df.index[-1] + get_resolution(resolution))}
         )
+
+        redis_cache.setex(redis_key, 172800, json.dumps(response))
+
         return jsonify(response)
