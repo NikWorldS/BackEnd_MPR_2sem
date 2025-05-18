@@ -1,7 +1,7 @@
 import os
 import json
 
-from datetime import datetime, timezone, timedelta
+from dateutil.parser import isoparse
 from flask import request, jsonify
 
 from cache.model_cache import models
@@ -22,8 +22,8 @@ def init(app, redis_cache):
         ticker = data.get('ticker')
         sec_id = data.get('sec_id')
 
-        date_from = datetime.fromisoformat(date_from)
-        date_to = datetime.fromisoformat(date_to)
+        date_from = isoparse(date_from)
+        date_to = isoparse(date_to)
 
         if sec_id not in PARSERS:
             return jsonify({"error": f'Unknown sec_id: {sec_id}'}), 400
