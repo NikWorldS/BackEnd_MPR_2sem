@@ -1,16 +1,18 @@
 from datetime import timedelta
+from dateutil.relativedelta  import relativedelta
 
 RESOLUTION_TO_TIMEDELTA = {
-    '1': timedelta(minutes=1),
-    '5': timedelta(minutes=5),
-    '10': timedelta(minutes=10),
-    '15': timedelta(minutes=15),
-    '30': timedelta(minutes=30),
-    '60': timedelta(hours=1),
-    '240': timedelta(hours=4),
-    'D': timedelta(days=1),
-    'W': timedelta(weeks=1),
-    'M': timedelta(days=30),
+    '1m': timedelta(minutes=1),
+    '5m': timedelta(minutes=5),
+    '10m': timedelta(minutes=10),
+    '15m': timedelta(minutes=15),
+    '30m': timedelta(minutes=30),
+    '1h': timedelta(hours=1),
+    '4h': timedelta(hours=4),
+    '1D': timedelta(days=1),
+    '1W': timedelta(weeks=1),
+    '1M': relativedelta(months=1),
+    '1Q': relativedelta(months=3)
 
 }
 

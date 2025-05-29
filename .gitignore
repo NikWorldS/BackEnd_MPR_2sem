@@ -1,5 +1,5 @@
 models/storage/*
 
-test.py
+test.*
 
 .env

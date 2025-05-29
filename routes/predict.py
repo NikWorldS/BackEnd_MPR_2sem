@@ -9,7 +9,8 @@ from models.core.model_trainer import ModelTrainer
 from models.core.predictor import Predictor
 from utils.parser_registry import PARSERS
 from utils.time_utils import get_resolution
-from utils.resolution_utils import is_valid_resolution
+from utils.resolution_utils import get_exchange_resolution
+from utils.ticker_utils import is_valid_ticker
 
 
 def init(app, redis_cache):
@@ -19,7 +20,7 @@ def init(app, redis_cache):
         data = request.get_json()
         date_from = data.get('from')
         date_to = data.get('to')
-        resolution = data.get('resolution')
+        internal_resolution = data.get('resolution')
         ticker = data.get('ticker')
         sec_id = data.get('sec_id')
 
@@ -28,8 +29,12 @@ def init(app, redis_cache):
 
         if sec_id not in PARSERS:
             return jsonify({"error": f'Unknown sec_id: {sec_id}'}), 400
-        if not is_valid_resolution(sec_id, resolution):
-            return jsonify({"error": f"Resolution '{resolution}' is not supported for {sec_id}."})
+        if not is_valid_ticker(ticker):
+            return jsonify({"error": f"ticker '{ticker}' is not supported"}), 400
+
+        resolution = get_exchange_resolution(sec_id, internal_resolution)
+        if resolution is None:
+            return jsonify({"error": f"Unknown resolution: '{internal_resolution}'"}), 400
 
         redis_key = f"predict:{sec_id}:{ticker}:{resolution}:{date_from.isoformat()}:{date_to.isoformat()}"
         if redis_cache.exists(redis_key):
@@ -67,7 +72,7 @@ def init(app, redis_cache):
             for v, d in zip(values, df.index)
         ]
         response.append(
-            {"type": "predicted", "value": float(predicted[0]), "date": str(df.index[-1] + get_resolution(resolution))}
+            {"type": "predicted", "value": float(predicted[0]), "date": str(df.index[-1] + get_resolution(internal_resolution))}
         )
 
         redis_cache.setex(redis_key, 172800, json.dumps(response)) # expire for 2 days
