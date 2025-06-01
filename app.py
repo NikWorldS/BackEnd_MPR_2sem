@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import routes
 
 
-def main():
+def create_app():
     load_dotenv()
 
     db_conn = None
@@ -36,8 +36,10 @@ def main():
 
     routes.init(app, db_conn, redis_cache)
 
-    app.run(debug=True)
+    return app
 
+
+app = create_app()
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)
