@@ -4,55 +4,56 @@
       "name": "Золото",
       "Ticker": "GLDRUB_TOM",
       "intervals": [
-        {"name": "5 минут", "value": "5"},
-        {"name": "15 минут", "value": "15"},
-        {"name": "30 минут", "value": "30"},
-        {"name": "1 час", "value": "60"},
-        {"name": "4 часа", "value": "240"},
-        {"name": "1 день", "value": "D"},
-        {"name": "1 неделя", "value": "W"},
-        {"name": "1 месяц", "value": "M"}
+        {"name": "5 минут", "value": "5m"},
+        {"name": "15 минут", "value": "15m"},
+        {"name": "30 минут", "value": "30m"},
+        {"name": "1 час", "value": "1h"},
+        {"name": "4 часа", "value": "4h"},
+        {"name": "1 день", "value": "1D"},
+        {"name": "1 неделя", "value": "1W"},
+        {"name": "1 месяц", "value": "1M"}
       ]
     },
     {
       "name": "Серебро",
       "Ticker": "SLVRUB_TOM",
       "intervals": [
-        {"name": "5 минут", "value": "5"},
-        {"name": "15 минут", "value": "15"},
-        {"name": "30 минут", "value": "30"},
-        {"name": "1 час", "value": "60"},
-        {"name": "4 часа", "value": "240"},
-        {"name": "1 день", "value": "D"},
-        {"name": "1 неделя", "value": "W"},
-        {"name": "1 месяц", "value": "M"}
+        {"name": "5 минут", "value": "5m"},
+        {"name": "15 минут", "value": "15m"},
+        {"name": "30 минут", "value": "30m"},
+        {"name": "1 час", "value": "1h"},
+        {"name": "4 часа", "value": "4h"},
+        {"name": "1 день", "value": "1D"},
+        {"name": "1 неделя", "value": "1W"},
+        {"name": "1 месяц", "value": "1M"}
       ]
     },
     {
       "name": "Палладий",
       "Ticker": "PLDRUB_TOM",
       "intervals": [
-        {"name": "5 минут", "value": "5"},
-        {"name": "15 минут", "value": "15"},
-        {"name": "30 минут", "value": "30"},
-        {"name": "1 час", "value": "60"},
-        {"name": "4 часа", "value": "240"},
-        {"name": "1 день", "value": "D"},
-        {"name": "1 неделя", "value": "W"},
-        {"name": "1 месяц", "value": "M"}
+        {"name": "5 минут", "value": "5m"},
+        {"name": "15 минут", "value": "15m"},
+        {"name": "30 минут", "value": "30m"},
+        {"name": "1 час", "value": "1h"},
+        {"name": "4 часа", "value": "4h"},
+        {"name": "1 день", "value": "1D"},
+        {"name": "1 неделя", "value": "1W"},
+        {"name": "1 месяц", "value": "1M"}
       ]
     },
     {
       "name": "Платина",
       "Ticker": "PLTRUB_TOM",
       "intervals": [
-        {"name": "1 минута", "value": "1" },
-        {"name": "10 минут", "value": "10" },
-        {"name": "1 час", "value": "60" },
-        {"name": "1 день", "value": "24" },
-        {"name": "1 неделя", "value": "7" },
-        {"name": "1 месяц", "value": "31" },
-        {"name": "1 квартал", "value": "4"}
+        {"name": "5 минут", "value": "5m"},
+        {"name": "15 минут", "value": "15m"},
+        {"name": "30 минут", "value": "30m"},
+        {"name": "1 час", "value": "1h"},
+        {"name": "4 часа", "value": "4h"},
+        {"name": "1 день", "value": "1D"},
+        {"name": "1 неделя", "value": "1W"},
+        {"name": "1 месяц", "value": "1M"}
       ]
     }
   ],
@@ -61,52 +62,52 @@
       "name": "Золото",
       "Ticker": "GLDRUB_TOM",
       "intervals": [
-        {"name": "1 минута", "value": "1" },
-        {"name": "10 минут", "value": "10" },
-        {"name": "1 час", "value": "60" },
-        {"name": "1 день", "value": "24" },
-        {"name": "1 неделя", "value": "7" },
-        {"name": "1 месяц", "value": "31" },
-        {"name": "1 квартал", "value": "4"}
+        {"name": "1 минута", "value": "1m" },
+        {"name": "10 минут", "value": "10m" },
+        {"name": "1 час", "value": "1h" },
+        {"name": "1 день", "value": "1D" },
+        {"name": "1 неделя", "value": "1W" },
+        {"name": "1 месяц", "value": "1M" },
+        {"name": "1 квартал", "value": "1Q"}
       ]
     },
     {
       "name": "Серебро",
       "Ticker": "SLVRUB_TOM",
       "intervals": [
-        {"name": "1 минута", "value": "1" },
-        {"name": "10 минут", "value": "10" },
-        {"name": "1 час", "value": "60" },
-        {"name": "1 день", "value": "24" },
-        {"name": "1 неделя", "value": "7" },
-        {"name": "1 месяц", "value": "31" },
-        {"name": "1 квартал", "value": "4"}
+        {"name": "1 минута", "value": "1m" },
+        {"name": "10 минут", "value": "10m" },
+        {"name": "1 час", "value": "1h" },
+        {"name": "1 день", "value": "1D" },
+        {"name": "1 неделя", "value": "1W" },
+        {"name": "1 месяц", "value": "1M" },
+        {"name": "1 квартал", "value": "1Q"}
       ]
     },
     {
       "name": "Палладий",
       "Ticker": "PLDRUB_TOM",
       "intervals": [
-        {"name": "1 минута", "value": "1" },
-        {"name": "10 минут", "value": "10" },
-        {"name": "1 час", "value": "60" },
-        {"name": "1 день", "value": "24" },
-        {"name": "1 неделя", "value": "7" },
-        {"name": "1 месяц", "value": "31" },
-        {"name": "1 квартал", "value": "4"}
+        {"name": "1 минута", "value": "1m" },
+        {"name": "10 минут", "value": "10m" },
+        {"name": "1 час", "value": "1h" },
+        {"name": "1 день", "value": "1D" },
+        {"name": "1 неделя", "value": "1W" },
+        {"name": "1 месяц", "value": "1M" },
+        {"name": "1 квартал", "value": "1Q"}
       ]
     },
     {
       "name": "Платина",
       "Ticker": "PLTRUB_TOM",
       "intervals": [
-        {"name": "1 минута", "value": "1" },
-        {"name": "10 минут", "value": "10" },
-        {"name": "1 час", "value": "60" },
-        {"name": "1 день", "value": "24" },
-        {"name": "1 неделя", "value": "7" },
-        {"name": "1 месяц", "value": "31" },
-        {"name": "1 квартал", "value": "4"}
+        {"name": "1 минута", "value": "1m" },
+        {"name": "10 минут", "value": "10m" },
+        {"name": "1 час", "value": "1h" },
+        {"name": "1 день", "value": "1D" },
+        {"name": "1 неделя", "value": "1W" },
+        {"name": "1 месяц", "value": "1M" },
+        {"name": "1 квартал", "value": "1Q"}
       ]
     }
   ]
