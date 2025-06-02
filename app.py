@@ -7,6 +7,7 @@ import psycopg2
 from dotenv import load_dotenv
 
 import routes
+from services.news_analyzer import start_scheduler
 
 
 def create_app():
@@ -42,4 +43,6 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
+    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
+        start_scheduler()
     app.run(debug=True)

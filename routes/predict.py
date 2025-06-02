@@ -5,8 +5,8 @@ from dateutil.parser import isoparse
 from flask import request, jsonify
 
 from cache.model_cache import models
-from models.core.model_trainer import ModelTrainer
-from models.core.predictor import Predictor
+from models.predictor_core.model_trainer import ModelTrainer
+from models.predictor_core.predictor import Predictor
 from utils.parser_registry import PARSERS
 from utils.time_utils import get_resolution
 from utils.resolution_utils import get_exchange_resolution
