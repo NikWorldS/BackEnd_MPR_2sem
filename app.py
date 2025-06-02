@@ -1,14 +1,13 @@
+from dotenv import load_dotenv
+from flask import Flask
+import psycopg2
+import redis
 import sys
 import os
 
-import redis
-from flask import Flask
-import psycopg2
-from dotenv import load_dotenv
-
 import routes
 from services.news_analyzer import start_scheduler
-
+from utils.redis_config import get_redis_url
 
 def create_app():
     load_dotenv()
@@ -23,11 +22,7 @@ def create_app():
             password=os.getenv("DB_PASS"),
         )
 
-        redis_cache = redis.Redis(
-            host=os.getenv("REDIS_HOST"),
-            port=os.getenv("REDIS_PORT"),
-            db=0,
-        )
+        redis_cache = redis.Redis.from_url(get_redis_url())
 
     except Exception as ex:
         print("Ошибка базы данных:", repr(ex))
