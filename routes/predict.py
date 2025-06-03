@@ -39,12 +39,12 @@ def init(app, redis_cache):
         if resolution is None:
             return jsonify({"error": f"Unknown resolution: '{internal_resolution}'"}), 400
 
-        redis_key = f"predict:{sec_id}:{ticker}:{resolution}:{date_from.isoformat()}:{date_to.isoformat()}"
+        redis_key = f"predict:{sec_id}:{ticker}:{internal_resolution}:{date_from.isoformat()}:{date_to.isoformat()}"
         if redis_cache.exists(redis_key):
             cached_response = json.loads(redis_cache.get(redis_key))
             return jsonify(cached_response)
 
-        model_key = f"{sec_id}_{ticker}_{resolution}"
+        model_key = f"{sec_id}_{ticker}_{internal_resolution}"
         model_path = os.path.join("models", "storage", model_key)
 
         parser_class = PARSERS[sec_id]
@@ -79,7 +79,7 @@ def init(app, redis_cache):
                     "data": response
                 }), 202
 
-        predicted = predictor.predict(values[-predictor.window_size:])
+        predicted = predictor.predict(df.tail(predictor.window_size))
 
         response = build_exodus_response(values, df.index)
         response.append(

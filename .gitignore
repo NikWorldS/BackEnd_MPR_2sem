@@ -2,5 +2,7 @@ models/storage/*
 
 test.*
 
+metals_news.json
+celerybeat-schedule.*
 
 .env
