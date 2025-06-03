@@ -6,8 +6,8 @@ import sys
 import os
 
 import routes
-from services.news_analyzer import start_scheduler
 from utils.redis_config import get_redis_url
+from services.tasks import analyze_news_task
 
 def create_app():
     load_dotenv()
@@ -38,6 +38,6 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    if os.environ.get("WERKZEUG_RUN_MAIN") == "true":
-        start_scheduler()
+    if not os.path.exists("metals_news.json"):
+        analyze_news_task.delay()
     app.run(debug=True)
