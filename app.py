@@ -24,6 +24,9 @@ def create_app():
 
         redis_cache = redis.Redis.from_url(get_redis_url())
 
+        if not os.path.exists("metals_news.json"):
+            analyze_news_task.delay()
+
     except Exception as ex:
         print("Ошибка базы данных:", repr(ex))
         sys.exit()
@@ -38,6 +41,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    if not os.path.exists("metals_news.json"):
-        analyze_news_task.delay()
     app.run(debug=True)

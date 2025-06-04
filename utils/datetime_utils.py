@@ -1,5 +1,7 @@
 from datetime import timedelta
 from dateutil.relativedelta  import relativedelta
+import numpy as np
+
 
 RESOLUTION_TO_TIMEDELTA = {
     '1m': timedelta(minutes=1),
@@ -18,3 +20,7 @@ RESOLUTION_TO_TIMEDELTA = {
 
 def get_resolution(resolution: str) -> timedelta:
     return RESOLUTION_TO_TIMEDELTA.get(resolution)
+
+def calculate_delta_time(dates: np.ndarray) -> np.ndarray:
+    timesteps = dates.astype(np.int64)
+    return np.diff(timesteps, prepend=timesteps[0]) // 10**9

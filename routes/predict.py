@@ -7,14 +7,13 @@ from flask import request, jsonify
 from cache.model_cache import models
 from models.predictor_core.predictor import Predictor
 from utils.parser_registry import PARSERS
-from utils.response_builder import build_exodus_response
-from utils.time_utils import get_resolution
+from utils.response_builder import build_response
 from utils.resolution_utils import get_exchange_resolution
 from utils.ticker_utils import is_valid_ticker
 from utils.status_store import is_training, set_training_status
 from services.tasks import train_model_task
 
-from config import WINDOW_SIZE
+
 
 def init(app, redis_cache):
 
@@ -51,8 +50,6 @@ def init(app, redis_cache):
         parser = parser_class(ticker, resolution, date_from, date_to)
         df = parser.fetch_data()
         values = df["close"].values
-        if values.shape[0] < WINDOW_SIZE:
-            return jsonify({"error": "Too small interval"}), 400
 
         if model_key in models:
             predictor = models[model_key]
@@ -61,7 +58,7 @@ def init(app, redis_cache):
             models[model_key] = predictor
         else:
             if is_training(redis_cache, model_key):
-                response = build_exodus_response(values, df.index)
+                response = build_response('exodus', values, df.index)
 
                 return jsonify({
                     "training": True,
@@ -72,19 +69,19 @@ def init(app, redis_cache):
                 set_training_status(redis_cache, model_key)
                 train_model_task.delay(model_key, sec_id, ticker, resolution)
 
-                response = build_exodus_response(values, df.index)
+                response = build_response('exodus', values, df.index)
                 return jsonify({
                     "training": True,
                     "message": "Model training started",
                     "data": response
                 }), 202
+        try:
+            predicted = predictor.predict_with_dates(data=df, return_df=True)
+        except ValueError as ex:
+            return jsonify({"error": repr(ex)}), 400
 
-        predicted = predictor.predict(df.tail(predictor.window_size))
-
-        response = build_exodus_response(values, df.index)
-        response.append(
-            {"type": "predicted", "value": float(predicted[0]), "date": str(df.index[-1] + get_resolution(internal_resolution))}
-        )
+        response = build_response('exodus', values, df.index)
+        response.extend(build_response('predicted', predicted['close'], predicted.index))
 
         redis_cache.setex(redis_key, 172800, json.dumps(response)) # expire for 2 days
 

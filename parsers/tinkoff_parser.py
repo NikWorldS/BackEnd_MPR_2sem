@@ -32,10 +32,10 @@ class TinkoffParser(DataParser):
         procesed_data = self._normalize_data(data)
 
         self._data = procesed_data
-        return procesed_data
+        return self.get_data()
 
     def get_data(self):
-        return self._data
+        return self._data.copy()
 
     def _normalize_data(self, data):
         df = pd.DataFrame(data)
@@ -47,4 +47,3 @@ class TinkoffParser(DataParser):
         processed_data.set_index("date", inplace=True)
 
         return processed_data
-

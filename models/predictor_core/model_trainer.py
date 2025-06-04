@@ -16,16 +16,18 @@ from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
 
 from parsers.data_parser import DataParser
 from utils.path_utils import get_absolute_path
+from utils.datetime_utils import calculate_delta_time
 
-
+Ё
 class ModelTrainer:
     def __init__(
         self,
         data_parser: DataParser,
         epochs: int = 100,
-        train_percent: float = 0.97,
-        val_percent: float = 0.0,
+        train_percent: float = 0.8,
+        val_percent: float = 0.1,
         window_size: int = 7,
+        forecast_horizon: int = 3,
         model_path: Union[str, os.PathLike] = "models",
     ):
         self.data_parser = data_parser
@@ -35,6 +37,7 @@ class ModelTrainer:
         self.train_percent = train_percent
         self.val_percent = val_percent
         self.window_size = window_size
+        self.forecast_horizon = forecast_horizon
         self.model_path = get_absolute_path(model_path)
 
         self.train_dates = None
@@ -57,14 +60,12 @@ class ModelTrainer:
 
     def _load_data(self) -> None:
         self.data = self.data_parser.fetch_data()
-        self.data["delta_time"] = (
-            self.data.index.to_series().diff().dt.total_seconds().fillna(0)
-        )
+        self.data["delta_time"] = calculate_delta_time(self.data.index.values)
 
     def _calculate_splits(self) -> None:
-        total_lenght = len(self.data) - self.window_size
-        self.train_len = int(total_lenght * self.train_percent)
-        self.val_len = int(total_lenght * self.val_percent) + self.train_len
+        self.total_len = len(self.data) - self.window_size - self.forecast_horizon + 1
+        self.train_len = int(self.total_len * self.train_percent)
+        self.val_len = int(self.total_len * self.val_percent) + self.train_len
 
     def _initialize_scaler(self):
         train_data = self.data.iloc[: self.train_len + self.window_size]
@@ -76,13 +77,18 @@ class ModelTrainer:
 
         X = []
         y = []
-        for i in range(len(self.data) - self.window_size):
+        for i in range(self.total_len):
             X.append(features[i : i + self.window_size])
-            y.append(features[i + self.window_size][0])
+            y.append(
+                features[
+                    i + self.window_size : i + self.window_size + self.forecast_horizon,
+                    0,
+                ]
+            )
 
-        self._X = np.array(X).astype(np.float32)  # .reshape(-1, self.window_size, 1)
+        self._X = np.array(X).astype(np.float32)
         self._y = np.array(y).astype(np.float32)
-        self._dates = dates[self.window_size :]
+        self._dates = dates[self.window_size : self.total_len + self.window_size]
 
     def _prepare_data(self) -> None:
         self.train_X = self._X[: self.train_len]
@@ -111,7 +117,7 @@ class ModelTrainer:
                 Dropout(0.2),
                 LSTM(32, kernel_initializer="he_normal"),
                 Dense(16, activation="relu", kernel_initializer="he_normal"),
-                Dense(1),
+                Dense(self.forecast_horizon),
             ]
         )
 
@@ -119,6 +125,7 @@ class ModelTrainer:
         self._model = model
 
     def _inverse_close(self, scaled_arr: np.ndarray) -> np.ndarray:
+        scaled_arr = scaled_arr.reshape(-1, 1)
         comb = np.hstack((scaled_arr, np.zeros_like(scaled_arr)))
         return self._scaler.inverse_transform(comb)[:, 0]
 
@@ -129,7 +136,13 @@ class ModelTrainer:
 
     def _save_config(self, path: pathlib.Path) -> None:
         with open(path / "config.json", "w", encoding="utf-8") as f:
-            json.dump({"window_size": self.window_size}, f)
+            json.dump(
+                {
+                    "window_size": self.window_size,
+                    "forecast_horizon": self.forecast_horizon,
+                },
+                f,
+            )
 
     def train(self) -> None:
         self._model.fit(

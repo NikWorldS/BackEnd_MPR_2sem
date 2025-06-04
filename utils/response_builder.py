@@ -1,2 +1,2 @@
-def build_exodus_response(values, index):
-    return [{"type": "exodus", "value": float(v), "date": str(d)} for v, d in zip(values, index)]
+def build_response(data_type, values, index) -> list:
+    return [{"type": data_type, "value": float(v), "date": str(d)} for v, d in zip(values, index)]
