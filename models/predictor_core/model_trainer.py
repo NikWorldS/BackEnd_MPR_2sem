@@ -18,7 +18,7 @@ from parsers.data_parser import DataParser
 from utils.path_utils import get_absolute_path
 from utils.datetime_utils import calculate_delta_time
 
-Ё
+
 class ModelTrainer:
     def __init__(
         self,
