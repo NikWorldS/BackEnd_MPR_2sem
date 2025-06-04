@@ -1,6 +1,7 @@
 models/storage/*
 
 test.*
+not_test_model_training.py
 
 metals_news.json
 celerybeat-schedule.*
