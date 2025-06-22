@@ -102,5 +102,39 @@
         "Ticker": "PLTRUB_TOM"
       }
     ]
+  },
+  "SBER": {
+    "intervals": [
+      {
+        "name": "1 день",
+        "value": "1D"
+      },
+      {
+        "name": "1 неделя",
+        "value": "1W"
+      },
+      {
+        "name": "1 месяц",
+        "value": "1M"
+      }
+    ],
+    "metals": [
+      {
+        "name": "Золото",
+        "Ticker": "GLDRUB_TOM"
+      },
+      {
+        "name": "Серебро",
+        "Ticker": "SLVRUB_TOM"
+      },
+      {
+        "name": "Палладий",
+        "Ticker": "PLDRUB_TOM"
+      },
+      {
+        "name": "Платина",
+        "Ticker": "PLTRUB_TOM"
+      }
+    ]
   }
 }

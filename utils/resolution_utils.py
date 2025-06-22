@@ -21,6 +21,11 @@ EXCHANGE_RESOLUTION_MAP = {
         "1M": "31",
         "1Q": "4"
     },
+    "SBER":{
+        "1D": "D",
+        "1W": "W",
+        "1M": "M",
+    },
 }
 
 def get_exchange_resolution(sec_id: str, internal_res: str) -> str:

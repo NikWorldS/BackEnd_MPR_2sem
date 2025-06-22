@@ -4,4 +4,5 @@ from parsers.moex_parser import MoexParser
 PARSERS = {
     'TINKOFF': TinkoffParser,
     'MOEX': MoexParser,
+    'SBER': TinkoffParser,
 }
