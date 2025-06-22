@@ -10,17 +10,15 @@ def init(app, database):
         try:
             data = request.get_json()
             email = data.get('email')
-            ticker = data.get('ticker')
-            bank = data.get('bank')
 
-            if not all([email, bank, ticker]):
+            if not email:
                 return jsonify({'error': 'Missing required fields'}), 400
             if not re.match(r"[^@]+@[^@]+\.[^@]+", email):  #Simple mail validator
                 return jsonify({'error': 'Invalid email'}), 400
             if sub_exists(email, database):
                 return jsonify({'error': 'Email is already subscribed'}), 400
 
-            subscription_service.subscription(email, ticker, bank, database)
+            subscription_service.subscription(email, database)
 
             return jsonify({'message': 'User subscribed'}), 201
         except Exception as ex:

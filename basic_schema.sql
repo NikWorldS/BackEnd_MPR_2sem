@@ -1,7 +1,5 @@
 CREATE TABLE IF NOT EXISTS subscriptions (
     id SERIAL PRIMARY KEY,
     email TEXT UNIQUE NOT NULL,
-    ticker TEXT NOT NULL,
-    bank TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL
 );

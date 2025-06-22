@@ -2,21 +2,17 @@ import datetime as dt
 
 class _SubscriptionService:
 
-    def subscription(self, email, ticker, bank, database):
+    def subscription(self, email, database):
         with database.cursor() as cursor:
             cursor.execute(
                 """
                 INSERT INTO subscriptions (
                     email,
-                    ticker,
-                    bank,
                     created_at)
                 VALUES (%s, %s, %s, %s)
                 """,
                 (
                     email,
-                    ticker,
-                    bank,
                     dt.datetime.now(dt.timezone.utc)
                 )
             )
